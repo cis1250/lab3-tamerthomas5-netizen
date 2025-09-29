@@ -7,31 +7,51 @@
 # 3. Create lists to store words and their corresponding frequencies.
 # 4. Iterate through words and update frequencies
 
-import re
+# word_frequency.py
 
-#This is a function that checks if a text qualifies as a sentence. You do not need to modify this!
 def is_sentence(text):
-    # Check if the text is not empty and is a string
-    if not isinstance(text, str) or not text.strip():
+    """Check if text is a valid sentence."""
+    if not text:
         return False
+    return (
+        text[0].isupper()
+        and text[-1] in ".?!"
+        and len(text.split()) > 0
+    )
 
-    # Check for starting with a capital letter
-    if not text[0].isupper():
-        return False
+def main():
+    # Prompt user until a valid sentence is entered
+    while True:
+        sentence = input("Enter a sentence: ")
+        if is_sentence(sentence):
+            break
+        else:
+            print("Please enter a valid sentence (start with capital, end with . ? or !).")
 
-    # Check for ending punctuation
-    if not re.search(r'[.!?]$', text):
-        return False
+    # Split sentence into words
+    words = sentence.split()
 
-    # Check if it contains at least one word (non-whitespace characters)
-    if not re.search(r'\w+', text):
-        return False
+    # Initialize lists
+    unique_words = []
+    frequencies = []
 
-    return True
+    # Count word frequencies
+    for word in words:
+        # Normalize word by removing punctuation at end
+        word = word.strip(".,!?").lower()
+        if word in unique_words:
+            index = unique_words.index(word)
+            frequencies[index] += 1
+        else:
+            unique_words.append(word)
+            frequencies.append(1)
 
-user_sentence = input("Enter a sentence: ")
+    # Print results
+    print("\nWord Frequencies:")
+    for i in range(len(unique_words)):
+        print(f"{unique_words[i]}: {frequencies[i]}")
 
-while (is_sentence(user_sentence) == False):
-    print("This does not meet the criteria for a sentence.")
-    user_input = input("Enter a sentence: ")
+if __name__ == "__main__":
+    main()
+
     
