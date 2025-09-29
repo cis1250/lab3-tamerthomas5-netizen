@@ -24,7 +24,7 @@ def fibonacci(n):
     print()  # new line at the end
 
 def main():
-    terms = get_positive_integer()
+    terms = get_positive_integer() # Keeps asking the user for input until they type a positive integer
     fibonacci(terms)
 
 if __name__ == "__main__":
